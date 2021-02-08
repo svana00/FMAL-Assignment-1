@@ -1,18 +1,26 @@
 // T-501-FMAL, Spring 2021, Assignment 1
-
 (*
-STUDENT NAMES HERE: Svanhildur Einarsdóttir and Róslín Erla Tómasdóttir
-
-
+STUDENT NAMES HERE: Svanhildur Einarsdottir and Roslin Erla Tomasdottir
 *)
 
 module Assignment1
+
+open System
 
 // Problem 1
 
 // nf : int -> int
 
+let rec nf n =
+    match n with
+    | n when n < 1 -> 1
+    | 1 -> 2
+    | n when n > 1 -> 2 * nf (n - 1) + 3 * nf (n - 2)
 
+// let rec nf n =
+//     if n < 1 then 1
+//     elif n = 1 then 2
+//     else 2 * nf (n - 1) + 3 * nf (n - 2)
 
 // Problem 2
 
@@ -20,18 +28,30 @@ module Assignment1
 
 // lastTrue : (int -> bool) -> int -> int
 
+let rec lastTrue f n =
+    match n with
+    | n when n - 1 < 0 -> -1
+    | n when f (n - 1) -> n - 1
+    | _ -> lastTrue f (n - 1)
 
 // (ii)
 
 // lastEqual : 'a -> (int -> 'a) -> int -> int when 'a : equality
 
-
+let lastEqual x f n = lastTrue (fun y -> f y = x) n
 
 // (iii)
 
 // firstTrue : (int -> bool) -> int -> int
+let firstTrue f n =
+    let rec firstTrueCounter' f n counter =
+        match n with
+        | n when n < 0 -> -1
+        | n when n = counter -> -1
+        | n when f (counter) -> counter
+        | _ -> firstTrueCounter' f n (counter + 1)
 
-
+    firstTrueCounter' f n 0
 
 // (iv)
 
@@ -39,7 +59,7 @@ module Assignment1
 // what can you say about  f?
 
 (*
-ANSWER 2(iv)(a) HERE: ...
+ANSWER 2(iv)(a) HERE:
 
 
 *)

@@ -1,0 +1,2 @@
+#load "Assignment1.fs";;
+open Assignment1;;
