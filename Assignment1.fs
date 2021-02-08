@@ -60,16 +60,17 @@ let firstTrue f n =
 
 (*
 ANSWER 2(iv)(a) HERE:
-
-
+    That in the range of 0-99 the function f always returns a
+    larger value for a larger input.
+    x + 1 will always return a larger value than x.
 *)
 
 // How about if  lastTrue f 100 = firstTrue f 100  is  true?
 
 (*
-ANSWER 2(iv)(b) HERE: ...
-
-
+ANSWER 2(iv)(b) HERE:
+    It means there is only one value in the range 0-99 that returns true for function f.
+    Only one right answer.
 *)
 
 
@@ -77,7 +78,10 @@ ANSWER 2(iv)(b) HERE: ...
 
 // repeat_map : ('a -> 'a) -> 'a list -> 'a list
 
-
+let rec repeat_map f xs =
+    match xs with
+    | [] -> []
+    | x :: xs -> f x :: List.map f (repeat_map f xs)
 
 // Problem 4
 
@@ -85,24 +89,32 @@ ANSWER 2(iv)(b) HERE: ...
 
 // sum_some : int option list -> int
 
-
+let rec sum_some xs =
+    match xs with
+    | [] -> 0
+    | None :: xs -> sum_some xs
+    | Some x :: xs -> x + sum_some xs
 
 // (ii)  (uncomment the definition below when you've completed it)
 
-(*
 let sum_some2 xs =
-    List.fold (fun s o ->
-        match o with
-        ...) 0 xs
-*)
+    List.fold
+        (fun s o ->
+            match o with
+            | None -> s
+            | Some o -> o + s)
+        0
+        xs
 
 // (iii)  (uncomment the definition below when you've completed it)
 
-(*
 let sum_some3 xs =
-    let f o = ...
+    let f o =
+        match o with
+        | None -> 0
+        | Some x -> x
+
     List.fold (+) 0 (List.map f xs)
-*)
 
 
 // Problem 5
