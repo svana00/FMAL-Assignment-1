@@ -128,24 +128,39 @@ type 'a nelist =
 
 // ne_product : int nelist -> int
 
+let rec ne_product nelist =
+    match nelist with
+    | One x -> x
+    | Cons (x, n) -> x * ne_product n
 
 // (ii)
 
 // ne_append : 'a nelist -> 'a nelist -> 'a nelist
 
-
+let rec ne_append nelist nelist2 =
+    match nelist with
+    | One x -> Cons(x, nelist2)
+    | Cons (x, n) -> Cons(x, ne_append n nelist2)
 
 // (iii)
 
 // to_list : 'a nelist -> 'a list
 
-let to_list (xs: 'a nelist): 'a list = failwith "to implement"
+// let to_list (xs: 'a nelist): 'a list = failwith "to implement"
 
+let rec to_list nelist =
+    match nelist with
+    | One x -> [ x ]
+    | Cons (x, n) -> x :: to_list n
 
 // (iv)
 
 // ne_map : ('a -> 'b) -> 'a nelist -> 'b nelist
 
+let rec ne_map f nelist =
+    match nelist with
+    | One x -> One(f x)
+    | Cons (x, n) -> Cons(f x, ne_map f n)
 
 // (v)
 
@@ -158,7 +173,10 @@ let to_pair xs =
 
 // from_pair : 'a * 'a list -> 'a nelist
 
-
+let rec from_pair xs =
+    match xs with
+    | (x, []) -> One x
+    | (x, y :: ys) -> Cons(x, from_pair (y, ys))
 
 // (vi)
 
@@ -168,8 +186,17 @@ let to_pair xs =
 // Explain why.
 
 (*
-ANSWER 5(vi) HERE: ...
+ANSWER 5(vi) HERE:
+    This is quite possible just as above to_pair and from_pair do the opposite thing.
+    This is pobbible because to_list cancels out from_list and from_list cancels out
+    to_list so you would always end up with the same list you started with (xs or ys).
 
+    We tried to implement this and it worked:
+
+    let rec from_list xs =
+        match xs with
+        | [ x ] -> One x
+        | x :: xs -> Cons(x, from_list xs)
 
 *)
 
