@@ -17,11 +17,6 @@ let rec nf n =
     | 1 -> 2
     | n when n > 1 -> 2 * nf (n - 1) + 3 * nf (n - 2)
 
-// let rec nf n =
-//     if n < 1 then 1
-//     elif n = 1 then 2
-//     else 2 * nf (n - 1) + 3 * nf (n - 2)
-
 // Problem 2
 
 // (i)
@@ -95,7 +90,7 @@ let rec sum_some xs =
     | None :: xs -> sum_some xs
     | Some x :: xs -> x + sum_some xs
 
-// (ii)  (uncomment the definition below when you've completed it)
+// (ii)
 
 let sum_some2 xs =
     List.fold
@@ -212,14 +207,29 @@ type product_tree =
 
 // are_same : product_tree -> product_tree -> bool
 
+let rec are_same xs ys =
+    match xs, ys with
+    | xs,ys when xs.value <> ys.value -> false
+    | xs,ys when xs.children = ys.children -> true  //If empty list
+    | xs,ys -> List.forall2 are_same xs.children ys.children
+
 
 
 // (ii)
 
 // get_product : product_tree -> int
 
+let helper o =
+    match o with
+    | Some x -> x
 
+let rec get_product xs =
+    match xs with
+    | xs when xs.product <> None -> helper xs.product
+    | xs -> xs.value * List.fold (fun acc o -> acc * get_product o ) 1 xs.children
 
 // (iii)
 
 // fill_products : product_tree -> product_tree
+let rec fill_products xs = 
+    {value = xs.value; children = List.map fill_products xs.children; product = Some (get_product xs)}
