@@ -12,7 +12,8 @@
 // val it : int = 20
 // > nf 4;;
 // val it : int = 61
-
+// > nf -1;;
+// val it : int = 1
 
 
 // Test cases for Problem 2

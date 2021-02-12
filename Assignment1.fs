@@ -17,6 +17,7 @@ let rec nf n =
     | 1 -> 2
     | n when n > 1 -> 2 * nf (n - 1) + 3 * nf (n - 2)
 
+
 // Problem 2
 
 // (i)
@@ -38,6 +39,7 @@ let lastEqual x f n = lastTrue (fun y -> f y = x) n
 // (iii)
 
 // firstTrue : (int -> bool) -> int -> int
+
 let firstTrue f n =
     let rec firstTrueCounter' f n counter =
         match n with
@@ -77,6 +79,7 @@ let rec repeat_map f xs =
     match xs with
     | [] -> []
     | x :: xs -> f x :: List.map f (repeat_map f xs)
+
 
 // Problem 4
 
@@ -209,10 +212,9 @@ type product_tree =
 
 let rec are_same xs ys =
     match xs, ys with
-    | xs,ys when xs.value <> ys.value -> false
-    | xs,ys when xs.children = ys.children -> true  //If empty list
-    | xs,ys -> List.forall2 are_same xs.children ys.children
-
+    | xs, ys when xs.value <> ys.value -> false
+    | xs, ys when xs.children = ys.children -> true //If empty list
+    | xs, ys -> List.forall2 are_same xs.children ys.children
 
 
 // (ii)
@@ -226,10 +228,14 @@ let helper o =
 let rec get_product xs =
     match xs with
     | xs when xs.product <> None -> helper xs.product
-    | xs -> xs.value * List.fold (fun acc o -> acc * get_product o ) 1 xs.children
+    | xs ->
+        xs.value
+        * List.fold (fun acc o -> acc * get_product o) 1 xs.children
 
 // (iii)
 
 // fill_products : product_tree -> product_tree
-let rec fill_products xs = 
-    {value = xs.value; children = List.map fill_products xs.children; product = Some (get_product xs)}
+let rec fill_products xs =
+    { value = xs.value
+      children = List.map fill_products xs.children
+      product = Some(get_product xs) }
